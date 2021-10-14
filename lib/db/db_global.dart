@@ -38,29 +38,61 @@ class DBGlobalManager {
   //Opcion 2
   getAllLibros() async {
     final db = await getDatabase;
-    final res = await db!.query("Libros");
+    final res = await db!.query("Libro");
     print(res);
   }
 
-  Future<int> insertLibroRaw() async {
+  Future<int> insertLibroRaw(int id, String desc,String autor,String url) async {
     final db = await getDatabase;
     final int res = await db!.rawInsert(
-        "INSERT INTO Libro(id, descripcionLibro, autor, urlImage) VALUES (1,'La Fiesta del Chivo','Mario Vargas Llosa','https://images-na.ssl-images-amazon.com/images/I/51RQv5UxNgL._SX304_BO1,204,203,200_.jpg')");
+        "INSERT INTO Libro(id, descripcionLibro, autor, urlImage) VALUES ($id,'$desc','$autor','$url')");
     print(res);
     return res;
   }
 
-  insertLibro() async {
+  Future<int> insertLibro(int id, String desc, String autor, String url) async {
     final db = await getDatabase;
     final int res = await db!.insert(
       "Libro",
       {
-        "id": 2,
-        "descripcionLibro": "La Ciudad y Los Perros",
-        "autor": "Mario Vargas Llosa",
-        "urlImage": "http://..."
+        "id": id,
+        "descripcionLibro": desc,
+        "autor": autor,
+        "urlImage": url
       },
     );
     print(res);
+    return res;
   }
+
+  updateLibroRaw() async {
+    final db = await getDatabase;
+    final res = await db!.rawUpdate(
+        "UPDATE Libro set urlImage = 'https://bibliotecaresumen.com/wp-content/uploads/la-ciudad1.jpg' WHERE id = 2");
+    print(res);
+  }
+
+  updateLibro() async {
+    final db = await getDatabase;
+    final res = await db!.update(
+      "Libro",
+      {
+        "urlImage": "www.myimage.com/"
+      },where: "id=3"
+    );
+    print(res);
+  }
+  
+  deleteLibroRaw()async{
+    final db = await getDatabase;
+    final res = await db!.rawDelete("DELETE FROM Libro WHERE id = 2");
+    print(res);
+  }
+
+  deleteLibro()async{
+    final db = await getDatabase;
+    final res = await db!.delete("Libro", where: "id = 1");
+    print(res);
+  }
+  
 }

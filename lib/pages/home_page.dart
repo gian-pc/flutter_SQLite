@@ -78,11 +78,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //showAddModal(context);
-          //DBGlobalManager.db.insertLibroRaw();
-          DBGlobalManager.db.getAllLibrosRaw();
-          //DBGlobalManager.db.insertLibro();
-
+         //DBGlobalManager.db.insertLibroRaw(2, "La Fiesta del Chivo", "Mario Vargas Llosa", "https://adriw.com/wp-content/uploads/2020/02/LA-FIESTA-DEL-CHIVO-1.jpg",);
+         DBGlobalManager.db.insertLibro(3, "La Ciudad y los Perros", "Mario Vargas Llosa", "http://www.casadelaliteratura.gob.pe/wp-content/uploads/2013/11/PortadaLaciudadyLosPerros.jpg");
         },
         child: Icon(Icons.add),
         backgroundColor: Color(0xff212121),
