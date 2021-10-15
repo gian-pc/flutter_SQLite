@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_codigo3_sqflite/models/libro_model.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -36,33 +37,27 @@ class DBGlobalManager {
   }
 
   //Opcion 2
-  getAllLibros() async {
+  Future<List>getAllLibros() async {
     final db = await getDatabase;
-    final res = await db!.query("Libro");
-    print(res);
-  }
-
-  Future<int> insertLibroRaw(int id, String desc,String autor,String url) async {
-    final db = await getDatabase;
-    final int res = await db!.rawInsert(
-        "INSERT INTO Libro(id, descripcionLibro, autor, urlImage) VALUES ($id,'$desc','$autor','$url')");
-    print(res);
+    final List res = await db!.query("Libro");
     return res;
   }
 
-  Future<int> insertLibro(int id, String desc, String autor, String url) async {
+  Future<int> insertLibroRaw(Libro libro) async {
     final db = await getDatabase;
-    final int res = await db!.insert(
-      "Libro",
-      {
-        "id": id,
-        "descripcionLibro": desc,
-        "autor": autor,
-        "urlImage": url
-      },
+    final int res = await db!.rawInsert(
+      "INSERT INTO Libro(id, descripcionLibro, autor, urlImage) VALUES (${libro.id},'${libro.descripcionLibro}','${libro.autor}','${libro.urlImage}')",
     );
     print(res);
     return res;
+  }
+
+  Future<int> insertLibro(Libro libro) async {
+    final db = await getDatabase;
+    final int res = await db!.insert("Libro",libro.convertirAMap());
+    await getAllLibros();
+    return res;
+
   }
 
   updateLibroRaw() async {
@@ -74,25 +69,20 @@ class DBGlobalManager {
 
   updateLibro() async {
     final db = await getDatabase;
-    final res = await db!.update(
-      "Libro",
-      {
-        "urlImage": "www.myimage.com/"
-      },where: "id=3"
-    );
+    final res = await db!
+        .update("Libro", {"urlImage": "www.myimage.com/"}, where: "id=3");
     print(res);
   }
-  
-  deleteLibroRaw()async{
+
+  deleteLibroRaw() async {
     final db = await getDatabase;
     final res = await db!.rawDelete("DELETE FROM Libro WHERE id = 2");
     print(res);
   }
 
-  deleteLibro()async{
+  deleteLibro() async {
     final db = await getDatabase;
     final res = await db!.delete("Libro", where: "id = 1");
     print(res);
   }
-  
 }

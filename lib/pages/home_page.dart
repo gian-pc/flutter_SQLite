@@ -1,20 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo3_sqflite/db/db_global.dart';
+
 import 'package:flutter_codigo3_sqflite/widgets/dismissible_item_widget.dart';
 import 'package:flutter_codigo3_sqflite/widgets/input_dialog_widget.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HomePage extends StatefulWidget {
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
-  initState(){
+  initState() {
     super.initState();
     DBGlobalManager.db;
   }
@@ -25,30 +24,37 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("Agregar Libro"),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24)
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SvgPicture.asset('assets/images/add.svg', height: 120,),
-                SizedBox(height: 14,),
+                SvgPicture.asset(
+                  'assets/images/add.svg',
+                  height: 120,
+                ),
+                SizedBox(
+                  height: 14,
+                ),
                 InputDialogWidget(
                   icon: Icons.book,
                   hint: "Libro",
                 ),
-                SizedBox(height: 14,),
+                SizedBox(
+                  height: 14,
+                ),
                 InputDialogWidget(
                   icon: Icons.person,
                   hint: "Autor",
                 ),
-                SizedBox(height: 14,),
+                SizedBox(
+                  height: 14,
+                ),
                 InputDialogWidget(
                   icon: Icons.image,
                   hint: "URL Portada",
                 ),
-
               ],
             ),
           ),
@@ -77,9 +83,18 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-         //DBGlobalManager.db.insertLibroRaw(2, "La Fiesta del Chivo", "Mario Vargas Llosa", "https://adriw.com/wp-content/uploads/2020/02/LA-FIESTA-DEL-CHIVO-1.jpg",);
-         DBGlobalManager.db.insertLibro(3, "La Ciudad y los Perros", "Mario Vargas Llosa", "http://www.casadelaliteratura.gob.pe/wp-content/uploads/2013/11/PortadaLaciudadyLosPerros.jpg");
+        onPressed: () async{
+          // Libro mantequilla = new Libro(
+          //   id: 11,
+          //   descripcionLibro: "The Lord",
+          //   autor: "JRR Tolkien",
+          //   urlImage:
+          //       "http:www.google.com",
+          // );
+          // //DBGlobalManager.db.insertLibroRaw(matasquita);
+          // DBGlobalManager.db.insertLibro(mantequilla);
+
+          print(await DBGlobalManager.db.getAllLibros());
         },
         child: Icon(Icons.add),
         backgroundColor: Color(0xff212121),
@@ -111,5 +126,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
