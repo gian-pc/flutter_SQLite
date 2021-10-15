@@ -32,12 +32,12 @@ class _ExamplePageState extends State<ExamplePage> {
     //     // });
     //     // print(stringFutureName);
 
-    getFutureName().then((value) {
-      stringFutureName = value;
-      setState(() {
-
-      });
-    });
+    // getFutureName().then((value) {
+    //   stringFutureName = value;
+    //   setState(() {
+    //
+    //   });
+    // });
   }
 
   Future<String>getFutureName()async{
@@ -53,7 +53,20 @@ class _ExamplePageState extends State<ExamplePage> {
             title: Text("Example"),
           ),
           body: Center(
-            child: Text(stringFutureName),
+            child: FutureBuilder(
+              future: getFutureName(),
+              builder: (BuildContext context, AsyncSnapshot snapshot){
+                if(snapshot.hasData){
+                  return Text(snapshot.data);
+                }else if(snapshot.hasError){
+                  return Text("Ocurrio un Error");
+                }
+                return CircularProgressIndicator();
+
+
+
+              },
+            ),
           ),
         );
   }
